@@ -48,6 +48,122 @@ int registrar_task(Task tasks[], int total, char comando[]) {
     return 1;
 }
 
+int achar_task(Task tasks[], int total, char nome[]) {
+    for (int i = 0; i < total; i++) {
+        if (strcmp(tasks[i].nome, nome) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int run_pipe(Task tasks[], int total, char comando[]) {
+    char copia[200];
+    char *nome_task;
+    int indices[MAX_TASKS];
+    int quantidade = 0;
+
+    strcpy(copia, comando + 9);
+    nome_task = strtok(copia, " ");
+    while (nome_task != NULL && quantidade < MAX_TASKS) {
+        int indice = achar_task(tasks, total, nome_task);
+
+        if (indice == -1) {
+            printf(
+                "Erro: tarefa %s nao encontrada.\n",
+                nome_task
+            );
+            return 0;
+        }
+
+        indices[quantidade] = indice;
+        quantidade++;
+
+        nome_task = strtok(NULL, " ");
+    }
+    if (quantidade < 2) {
+        printf(
+            "Erro: use run pipe "
+            "<tarefa1> <tarefa2> ...\n"
+        );
+        return 0;
+    }
+
+    pid_t pids[MAX_TASKS];
+    int entrada_anterior = -1;
+
+    for (int i = 0; i < quantidade; i++) {
+        int canal[2] = {-1, -1};
+        if (i < quantidade - 1) {
+            if (pipe(canal) < 0) {
+                printf("Erro ao criar pipe.\n");
+                if (entrada_anterior != -1) {
+                    close(entrada_anterior);
+                }
+                for (int j = 0; j < i; j++) {
+                    waitpid(pids[j], NULL, 0);
+                }
+                return 0;
+            }
+        }
+        pid_t pid = fork();
+
+        if (pid < 0) {
+            printf("Erro ao criar processo.\n");
+            if (entrada_anterior != -1) {
+                close(entrada_anterior);
+            }
+            if (canal[0] != -1) {
+                close(canal[0]);
+                close(canal[1]);
+            }
+            for (int j = 0; j < i; j++) {
+                waitpid(pids[j], NULL, 0);
+            }
+            return 0;
+        }
+        if (pid == 0) {
+            int indice = indices[i];
+            if (entrada_anterior != -1) {
+                dup2(entrada_anterior, STDIN_FILENO); //faz a próxima tarefa ler do pipe;
+            }
+            if (i < quantidade - 1) {
+                dup2(canal[1], STDOUT_FILENO); //envia a saída para o pipe;
+            }
+            if (entrada_anterior != -1) {
+                close(entrada_anterior);
+            }
+            if (canal[0] != -1) {
+                close(canal[0]);
+                close(canal[1]);
+            }
+            char *argumentos_exec[MAX_ARGUMENTOS + 2];
+            argumentos_exec[0] = tasks[indice].programa;
+
+            for (int j = 0; j < tasks[indice].total_argumentos; j++) {
+                argumentos_exec[j + 1] = tasks[indice].argumentos[j];
+            }
+            argumentos_exec[tasks[indice].total_argumentos + 1] = NULL;
+            execv(tasks[indice].programa,argumentos_exec);
+
+            fprintf(stderr,"Erro ao executar a tarefa %s.\n",tasks[indice].nome);
+            _exit(1);
+        }
+        pids[i] = pid;
+        if (entrada_anterior != -1) {
+            close(entrada_anterior);
+        }
+        if (i < quantidade - 1) {
+            close(canal[1]);
+            entrada_anterior = canal[0];
+        }
+    }
+    for (int i = 0; i < quantidade; i++) {
+        waitpid(pids[i], NULL, 0);
+    }
+    return 1;
+}
+
 int run_task(Task tasks[], int total, char nome[]) {
     int indice = -1; //O -1 significa que nenhuma tarefa foi encontrada.
     for (int i = 0; i < total; i++) {
@@ -101,7 +217,7 @@ int main() {
                 printf("Task cadastrada: %s\n", tasks[total].nome);
                 total++;
             }
-            
+
         } else if (strcmp(comando, "run sequential") == 0) {
             printf("Erro: use run sequential " "<tarefa1> <tarefa2> ...\n");
 
@@ -175,6 +291,12 @@ int main() {
             for (int i = 0; i < total_processos; i++) {
                 waitpid(pids[i], NULL, 0);
             }
+
+        }else if (strcmp(comando, "run pipe") == 0) {
+            printf("Erro: use run pipe " "<tarefa1> <tarefa2> ...\n");
+
+        }else if (strncmp(comando, "run pipe ", 9) == 0) {
+            run_pipe(tasks, total, comando);
 
         }else if (strncmp(comando, "run ", 4) == 0) {
             char nome[50];
