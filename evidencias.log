@@ -93,4 +93,85 @@ gcc -Wall -Wextra -std=c11 processflow/src/main.c -o processflow/processflow
 [?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflow
 [?2004l
 processflow> exit
-[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[Script started on 2026-08-23 12:58:31-03:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="164" LINES="14"]
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004l
+rm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004l
+gcc -c processflow/src/main.c -o processflow/main.o
+:111:26:[m[K [01;31m[Kerror: [m[K‘[01m[KTask[m[K’ has no member named ‘[01m[Kappend_mode[m[K’
+  111 |             tasks[indice][01;31m[K.[m[Kappend_mode = 0;
+      |                          [01;31m[K^[m[K
+make: *** [makefile:5: processflow/main.o] Error 1
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004l
+rm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004l
+gcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004l
+gcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflow
+[?2004l
+processflow> task ordenar /usr/bin/sort
+Task cadastrada: ordenar
+processflow> input ordenar nomes.txt
+Erro: use input <tarefa> <arquivo>
+processflow> input ordenas r nome.txt
+Erro: use input <tarefa> <arquivo>
+processflow> u input ordenar tarefa.txt
+Erro: use input <tarefa> <arquivo>
+processflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004l
+rm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004l
+gcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflow
+[?2004l
+processflow> task ordenar /usr/bin/sort
+Task cadastrada: ordenar
+processflow> input ordenar nomes.txt
+input configurado para a tarefa ordenar.
+processflow> output ordenar resultado.txt
+output configurado para a tarefa ordenar.
+processflow> append ordenar historico.txt
+append configurado para a tarefa ordenar.
+processflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ printf [K[K[K[K[K[K[K[7mprintf "Carlos\nAna\nBruno\n" > nomes.txt[27m[1Pprintf "Carlos\nAna\nBruno\n" > nomes.txt[1P[1P[1P[C[1P[1P[1@t[1@e[1@s[1@t[1@e[1@3[1P[C[1P[1P[1@t[1@e[1@s[1@t[1@e[1@2[1P[1P[1P[1P[1P[1P[1@t[1@e[1@s[1@t[1@e[1@1
+[?2004l
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004l
+rm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004l
+gcc -c processflow/src/main.c -o processflow/main.o
+[01m[Kprocessflow/src/main.c:[m[K In function ‘[01m[Krun_task[m[K’:
+[01m[Kprocessflow/src/main.c:261:13:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Kapply_redirects[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
+  261 |         if ([01;35m[Kapply_redirects[m[K(tasks, indice) == 0) {
+      |             [01;35m[K^~~~~~~~~~~~~~~[m[K
+gcc processflow/main.o -o processflow/processflow
+/usr/bin/ld: processflow/main.o: in function `run_task':
+/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make 
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflow
+[?2004lprocessflow> task ordenar /usr/bin/sort
+Task cadastrada: ordenar
+processflow> input ordenar nomes.txt
+input configurado para a tarefa ordenar.
+processflow> output ordenar resultado.txt
+output configurado para a tarefa ordenar.
+processflow> run ordenar
+processflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ cat resultado.txt
+[?2004lteste1
+teste2
+teste3
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbie

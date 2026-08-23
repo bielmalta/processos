@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 #define MAX_TASKS 20
 #define MAX_ARGUMENTOS 10
@@ -11,6 +13,9 @@ typedef struct {
     char programa[100];
     char argumentos[MAX_ARGUMENTOS][100];
     int total_argumentos;
+    char input_file[200];
+    char output_file[200];
+    int append_mode;
 } Task;
 
 int registrar_task(Task tasks[], int total, char comando[]) {
@@ -33,6 +38,9 @@ int registrar_task(Task tasks[], int total, char comando[]) {
 
     snprintf(tasks[total].programa, sizeof(tasks[total].programa), "%s",programa);
     tasks[total].total_argumentos = 0;
+    tasks[total].input_file[0] = '\0';
+    tasks[total].output_file[0] = '\0';
+    tasks[total].append_mode = 0;
 
     argumento = strtok(NULL, " ");
     while (
@@ -55,6 +63,73 @@ int achar_task(Task tasks[], int total, char nome[]) {
         }
     }
     return -1;
+}
+
+int armazenar_arquivos(Task tasks[], int total, char comando[], char tipo[]) {
+    char nome[50];
+    char arquivo[200];
+    int quantidade = sscanf(comando,"%*s %49s %199s",nome,arquivo);
+
+    if (quantidade != 2) {
+        printf("Erro: use %s <tarefa> <arquivo>\n", tipo);
+        return 0;
+    }
+    int indice = achar_task(tasks, total, nome);
+    if (indice == -1) {
+        printf("Erro: tarefa %s nao encontrada.\n", nome);
+        return 0;
+    }
+
+    if (strcmp(tipo, "input") == 0) {
+        snprintf(tasks[indice].input_file,sizeof(tasks[indice].input_file), "%s", arquivo);
+    }else {
+        snprintf(tasks[indice].output_file, sizeof(tasks[indice].output_file),"%s", arquivo);
+        if (strcmp(tipo, "append") == 0) {
+            tasks[indice].append_mode = 1;
+        }
+        else {
+            tasks[indice].append_mode = 0;
+        }
+    }
+    printf("%s configurado para a tarefa %s.\n",tipo,nome);
+    return 1;
+}
+
+int redirecionamento(Task tasks[], int indice) {
+    int arquivo;
+    if (tasks[indice].input_file[0] != '\0') {
+        arquivo = open(tasks[indice].input_file, O_RDONLY);
+        if (arquivo < 0) {
+            perror("Erro ao abrir arquivo de entrada");
+            return 0;
+        }
+        if (dup2(arquivo, STDIN_FILENO) < 0) {
+            perror("Erro ao redirecionar entrada");
+            close(arquivo);
+            return 0;
+        }
+        close(arquivo);
+    }
+    if (tasks[indice].output_file[0] != '\0') {
+        int opcoes = O_WRONLY | O_CREAT;
+        if (tasks[indice].append_mode == 1) {
+            opcoes = opcoes | O_APPEND;
+        }else {
+            opcoes = opcoes | O_TRUNC;
+        }
+        arquivo = open(tasks[indice].output_file,opcoes,0644);
+        if (arquivo < 0) {
+            perror("Erro ao abrir arquivo de saida");
+            return 0;
+        }
+        if (dup2(arquivo, STDOUT_FILENO) < 0) {
+            perror("Erro ao redirecionar saida");
+            close(arquivo);
+            return 0;
+        }
+        close(arquivo);
+    }
+    return 1;
 }
 
 int run_pipe(Task tasks[], int total, char comando[]) {
@@ -124,6 +199,9 @@ int run_pipe(Task tasks[], int total, char comando[]) {
         }
         if (pid == 0) {
             int indice = indices[i];
+            if (redirecionamento(tasks, indice) == 0) {
+                _exit(1);
+            }
             if (entrada_anterior != -1) {
                 dup2(entrada_anterior, STDIN_FILENO); //faz a próxima tarefa ler do pipe;
             }
@@ -182,6 +260,10 @@ int run_task(Task tasks[], int total, char nome[]) {
         return 0;
     }
     if (pid == 0) {
+        if (redirecionamento(tasks, indice) == 0) {
+            _exit(1);
+        }
+
         char *argumentos_exec[MAX_ARGUMENTOS + 2];
         argumentos_exec[0] = tasks[indice].programa;
         for (int j = 0; j < tasks[indice].total_argumentos; j++) {
@@ -270,6 +352,9 @@ int main() {
                     break;
                 }
                 if (pid == 0) {
+                    if (redirecionamento(tasks, indice) == 0) {
+                        _exit(1);
+                    }
                     char *argumentos_exec[MAX_ARGUMENTOS + 2];
                     argumentos_exec[0] = tasks[indice].programa;
                     for (int j = 0; j < tasks[indice].total_argumentos; j++) {
@@ -291,6 +376,15 @@ int main() {
             for (int i = 0; i < total_processos; i++) {
                 waitpid(pids[i], NULL, 0);
             }
+
+        }else if (strcmp(comando, "input") == 0 || strncmp(comando, "input ", 6) == 0) {
+            armazenar_arquivos(tasks, total, comando, "input");
+
+        }else if (strcmp(comando, "output") == 0 || strncmp(comando, "output ", 7) == 0 ){
+            armazenar_arquivos(tasks, total, comando, "output");
+
+        }else if (strcmp(comando, "append") == 0 || strncmp(comando, "append ", 7) == 0) {
+            armazenar_arquivos(tasks, total, comando, "append");
 
         }else if (strcmp(comando, "run pipe") == 0) {
             printf("Erro: use run pipe " "<tarefa1> <tarefa2> ...\n");
