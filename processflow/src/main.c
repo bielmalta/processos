@@ -8,6 +8,7 @@
 
 #define MAX_TASKS 20
 #define MAX_ARGUMENTOS 10
+#define MAX_JOBS 20
 char workdir_path[200] = "";
 
 typedef struct {
@@ -19,6 +20,17 @@ typedef struct {
     char output_file[200];
     int append_mode;
 } Task;
+
+typedef struct Job{
+    int id;
+    pid_t pid;
+    char nome_task[50];
+    int ativo;
+}Job;
+
+Job jobs[MAX_JOBS];
+int total_jobs = 0;
+int proximo_job_id = 1;
 
 int registrar_task(Task tasks[], int total, char comando[]) {
     char copia[200];
@@ -119,18 +131,6 @@ int configure_workdir(char comando[]) {
     return 1;
 }
 
-int apply_workdir() {
-    if (workdir_path[0] == '\0') {
-        return 1;
-    }
-
-    if (chdir(workdir_path) != 0) {
-        perror("Erro ao acessar diretorio de trabalho");
-        return 0;
-    }
-
-    return 1;
-}
 
 int aplicar_workdir() {
     if (workdir_path[0] == '\0') {
@@ -181,6 +181,119 @@ int redirecionamento(Task tasks[], int indice) {
     return 1;
 }
 
+int run_task(Task tasks[], int total, char nome[]) {
+    int indice = -1; //O -1 significa que nenhuma tarefa foi encontrada.
+    for (int i = 0; i < total; i++) {
+        if (strcmp(tasks[i].nome, nome) == 0) {
+            indice = i;
+            break;
+        }
+    }
+    if (indice == -1) {
+        printf("Erro: tarefa %s nao encontrada.\n", nome);
+        return 0;
+    }
+    pid_t pid = fork(); //criei o processo filho
+    if (pid < 0) {
+        printf("Erro ao criar processo.\n"); 
+        return 0;
+    }
+    if (pid == 0) {
+        if (aplicar_workdir() == 0) {
+            _exit(1);
+        }
+        if (redirecionamento(tasks, indice) == 0) {
+            _exit(1);
+        }
+
+        char *argumentos_exec[MAX_ARGUMENTOS + 2];
+        argumentos_exec[0] = tasks[indice].programa;
+        for (int j = 0; j < tasks[indice].total_argumentos; j++) {
+            argumentos_exec[j + 1] = tasks[indice].argumentos[j]; 
+        }
+        argumentos_exec[tasks[indice].total_argumentos + 1] = NULL;
+        execv(tasks[indice].programa, argumentos_exec); //faz o filho executar o programa.
+        printf("Erro: nao foi possivel executar a tarefa.\n");
+        fflush(stdout);
+        _exit(1); //encerra o processo filho mostrando que deu erro
+    }
+    waitpid(pid, NULL, 0); //processo pai espera o processo filho terminar
+    return 1;
+}
+
+int start_task(Task tasks[], int total, char nome[]) {
+    int indice = achar_task(tasks, total, nome);
+
+    if (indice == -1) {
+        printf("Erro: tarefa %s nao encontrada.\n", nome);
+        return 0;
+    }
+
+    if (total_jobs == MAX_JOBS) {
+        printf("Erro: limite de jobs atingido.\n");
+        return 0;
+    }
+
+    pid_t pid = fork();
+
+    if (pid < 0) {
+        printf("Erro ao criar processo.\n");
+        return 0;
+    }
+
+    /* Processo filho */
+    if (pid == 0) {
+        if (aplicar_workdir() == 0) {
+            _exit(1);
+        }
+        if (redirecionamento(tasks, indice) == 0) {
+            _exit(1);
+        }
+        char *argumentos_exec[MAX_ARGUMENTOS + 2];
+        argumentos_exec[0] = tasks[indice].programa;
+
+        for (int i = 0;i < tasks[indice].total_argumentos;i++) {
+            argumentos_exec[i + 1] = tasks[indice].argumentos[i];
+        }
+
+        argumentos_exec[tasks[indice].total_argumentos + 1] = NULL;
+        execv(tasks[indice].programa, argumentos_exec);
+        perror("Erro no execv");
+        _exit(1);
+    }
+
+    jobs[total_jobs].id = proximo_job_id;
+    jobs[total_jobs].pid = pid;
+    jobs[total_jobs].ativo = 1;
+
+    snprintf(jobs[total_jobs].nome_task,sizeof(jobs[total_jobs].nome_task),"%s", nome);
+    printf("[Job %d] PID %d - tarefa %s iniciada\n", jobs[total_jobs].id, (int)pid, jobs[total_jobs].nome_task);
+
+    total_jobs++;
+    proximo_job_id++;
+    return 1;
+}
+
+void listar_jobs() {
+    if (total_jobs == 0) {
+        printf("Nenhum job registrado.\n");
+        return;
+    }
+    for (int i = 0; i < total_jobs; i++) {
+        if (jobs[i].ativo == 1) {
+            pid_t resultado = waitpid(jobs[i].pid, NULL, WNOHANG);
+            if (resultado == jobs[i].pid) {
+                jobs[i].ativo = 0;
+            }
+        }
+
+        if (jobs[i].ativo == 1) {
+            printf("[Job %d] PID %d - %s - executando\n",jobs[i].id, (int)jobs[i].pid,jobs[i].nome_task);
+        }else {
+            printf("[Job %d] PID %d - %s - finalizado\n",jobs[i].id,(int)jobs[i].pid,jobs[i].nome_task);
+        }
+    }
+}
 
 int run_pipe(Task tasks[], int total, char comando[]) {
     char copia[200];
@@ -207,10 +320,7 @@ int run_pipe(Task tasks[], int total, char comando[]) {
         nome_task = strtok(NULL, " ");
     }
     if (quantidade < 2) {
-        printf(
-            "Erro: use run pipe "
-            "<tarefa1> <tarefa2> ...\n"
-        );
+        printf("Erro: use run pipe " "<tarefa1> <tarefa2> ...\n");
         return 0;
     }
 
@@ -293,47 +403,6 @@ int run_pipe(Task tasks[], int total, char comando[]) {
     for (int i = 0; i < quantidade; i++) {
         waitpid(pids[i], NULL, 0);
     }
-    return 1;
-}
-
-
-int run_task(Task tasks[], int total, char nome[]) {
-    int indice = -1; //O -1 significa que nenhuma tarefa foi encontrada.
-    for (int i = 0; i < total; i++) {
-        if (strcmp(tasks[i].nome, nome) == 0) {
-            indice = i;
-            break;
-        }
-    }
-    if (indice == -1) {
-        printf("Erro: tarefa %s nao encontrada.\n", nome);
-        return 0;
-    }
-    pid_t pid = fork(); //criei o processo filho
-    if (pid < 0) {
-        printf("Erro ao criar processo.\n"); 
-        return 0;
-    }
-    if (pid == 0) {
-        if (aplicar_workdir() == 0) {
-            _exit(1);
-        }
-        if (redirecionamento(tasks, indice) == 0) {
-            _exit(1);
-        }
-
-        char *argumentos_exec[MAX_ARGUMENTOS + 2];
-        argumentos_exec[0] = tasks[indice].programa;
-        for (int j = 0; j < tasks[indice].total_argumentos; j++) {
-            argumentos_exec[j + 1] = tasks[indice].argumentos[j]; 
-        }
-        argumentos_exec[tasks[indice].total_argumentos + 1] = NULL;
-        execv(tasks[indice].programa, argumentos_exec); //faz o filho executar o programa.
-        printf("Erro: nao foi possivel executar a tarefa.\n");
-        fflush(stdout);
-        _exit(1); //encerra o processo filho mostrando que deu erro
-    }
-    waitpid(pid, NULL, 0); //processo pai espera o processo filho terminar
     return 1;
 }
 
@@ -446,6 +515,19 @@ int main() {
         }else if (strcmp(comando, "output") == 0 || strncmp(comando, "output ", 7) == 0 ){
             armazenar_arquivos(tasks, total, comando, "output");
 
+        }else if (strcmp(comando, "start") == 0) {
+             printf("Erro: use start <tarefa>\n");
+        }else if (strncmp(comando, "start ", 6) == 0) {
+            char nome[50];
+            if (sscanf(comando, "start %49s", nome) != 1) {
+                printf("Erro: use start <tarefa>\n");
+                continue;
+            }
+            start_task(tasks, total, nome);
+
+        }else if (strcmp(comando, "jobs") == 0) {
+            listar_jobs();
+            
         }else if (strcmp(comando, "append") == 0 || strncmp(comando, "append ", 7) == 0) {
             armazenar_arquivos(tasks, total, comando, "append");
 
