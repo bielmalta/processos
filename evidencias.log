@@ -403,4 +403,21 @@ processflow> start pausa
 processflow> jobs
 [Job 1] PID 27913 - pausa - finalizado
 processflow> exit
-[?2004h]0;bielmalta
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean./processflow/processflow
+[?2004lprocessflow> task pausa /bin/sleep 5
+Task cadastrada: pausa
+processflow> start pausa
+[Job 1] PID 32160 - tarefa pausa iniciada
+processflow> wait 1
+Aguardando job 1...
+Job 1 finalizado.
+processflow> jobs
+[Job 1] PID 32160 - pausa - finalizado
+processflow> wait 99
+Erro: job 99 nao encontrado.
+process

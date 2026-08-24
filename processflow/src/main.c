@@ -295,6 +295,33 @@ void listar_jobs() {
     }
 }
 
+int esperar_job(int id) {
+    int indice = -1;
+    for (int i = 0; i < total_jobs; i++) {
+        if (jobs[i].id == id) {
+            indice = i;
+            break;
+        }
+    }
+    if (indice == -1) {
+        printf("Erro: job %d nao encontrado.\n", id);
+        return 0;
+    }
+    if (jobs[indice].ativo == 0) {
+        printf("Job %d ja foi finalizado.\n", id);
+        return 1;
+    }
+    printf("Aguardando job %d...\n", id);
+    pid_t resultado = waitpid(jobs[indice].pid,NULL,0);
+    if (resultado < 0) {
+        perror("Erro ao esperar job");
+        return 0;
+    }
+    jobs[indice].ativo = 0;
+    printf("Job %d finalizado.\n", id);
+    return 1;
+}
+
 int run_pipe(Task tasks[], int total, char comando[]) {
     char copia[200];
     char *nome_task;
@@ -406,18 +433,40 @@ int run_pipe(Task tasks[], int total, char comando[]) {
     return 1;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     Task tasks[MAX_TASKS];
     int total = 0;
     char comando[200];
 
+    FILE *entrada = stdin;
+    int modo_arquivo = 0;
+    if (argc > 2) {
+        printf("Erro: use ./processflow [arquivo.pf]\n");
+        return 1;
+    }
+    if (argc == 2) {
+        entrada = fopen(argv[1], "r");
+        if (entrada == NULL) {
+            perror("Erro ao abrir workflow");
+            return 1;
+        }
+        modo_arquivo = 1;
+    }
+
     while (1) {
-        printf("processflow> ");
-        fflush(stdout);
-        if (fgets(comando, sizeof(comando), stdin) == NULL) {
+        if (modo_arquivo == 0) {
+            printf("processflow> ");
+            fflush(stdout);
+        }
+        if (fgets(comando, sizeof(comando), entrada) == NULL) {
             break;
         }
-        comando[strcspn(comando, "\n")] = '\0';
+        if (comando[0] == '\0') {
+            continue;
+        }
+        if (modo_arquivo == 1) {
+            printf("processflow> %s\n", comando);
+        }
         if (strcmp(comando, "exit") == 0) {
             break;
         }
@@ -515,6 +564,9 @@ int main() {
         }else if (strcmp(comando, "output") == 0 || strncmp(comando, "output ", 7) == 0 ){
             armazenar_arquivos(tasks, total, comando, "output");
 
+        }else if (strcmp(comando, "append") == 0 || strncmp(comando, "append ", 7) == 0) {
+            armazenar_arquivos(tasks, total, comando, "append");
+
         }else if (strcmp(comando, "start") == 0) {
              printf("Erro: use start <tarefa>\n");
         }else if (strncmp(comando, "start ", 6) == 0) {
@@ -527,9 +579,16 @@ int main() {
 
         }else if (strcmp(comando, "jobs") == 0) {
             listar_jobs();
-            
-        }else if (strcmp(comando, "append") == 0 || strncmp(comando, "append ", 7) == 0) {
-            armazenar_arquivos(tasks, total, comando, "append");
+
+        }else if (strcmp(comando, "wait") == 0) {
+            printf("Erro: use wait <id>\n");
+        }else if (strncmp(comando, "wait ", 5) == 0) {
+            int id;
+            if (sscanf(comando, "wait %d", &id) != 1) {
+                printf("Erro: use wait <id>\n");
+                continue;
+            }
+            esperar_job(id);
 
         }else if (strcmp(comando, "run pipe") == 0) {
             printf("Erro: use run pipe " "<tarefa1> <tarefa2> ...\n");
@@ -545,6 +604,9 @@ int main() {
             }
             run_task(tasks, total, nome);
         }
+    }
+    if (entrada != stdin) {
+        fclose(entrada);
     }
     return 0;
 }
