@@ -461,6 +461,7 @@ int main(int argc, char *argv[]) {
         if (fgets(comando, sizeof(comando), entrada) == NULL) {
             break;
         }
+        comando[strcspn(comando, "\r\n")] = '\0';
         if (comando[0] == '\0') {
             continue;
         }
