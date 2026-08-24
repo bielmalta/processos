@@ -420,4 +420,33 @@ processflow> jobs
 [Job 1] PID 32160 - pausa - finalizado
 processflow> wait 99
 Erro: job 99 nao encontrado.
-process
+processflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [K]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [K]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mprintf "task mensagem /bin/echo Workflow funcionando\nrun mensagem\nexit\n" > teste.pf[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cprintf "task mensagem /bin/echo Workflow funcionando\nrun mensagem\nexit\n" > teste.pf
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+[01m[Kprocessflow/src/main.c:[m[K In function ‘[01m[Kmain[m[K’:
+[01m[Kprocessflow/src/main.c:443:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kargc[m[K’ undeclared (first use in this function); did you mean ‘[01m[Kargv[m[K’?
+  443 |     if ([01;31m[Kargc[m[K > 2) {
+      |         [01;31m[K^~~~[m[K
+      |         [32m[Kargv[m[K
+[01m[Kprocessflow/src/main.c:443:9:[m[K [01;36m[Knote: [m[Keach undeclared identifier is reported only once for each function it appears in
+make: *** [makefile:5: processflow/main.o] Error 1
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processld[K[Kflow
+[?2004lprocessflow> processflow> task mensagem /bin/echo Workflow funcionando
+processflow> exit
+processflow> exit
+processflow> exit    ^C
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./prce[K[Kocessflow/peoc[K[K[Krocessflow teste.pg[Kf
+[?2004lprocessflow> task mensagem /bin/echo Workflow
