@@ -4,9 +4,11 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 #define MAX_TASKS 20
 #define MAX_ARGUMENTOS 10
+char workdir_path[200] = "";
 
 typedef struct {
     char nome[50];
@@ -95,6 +97,53 @@ int armazenar_arquivos(Task tasks[], int total, char comando[], char tipo[]) {
     return 1;
 }
 
+int configure_workdir(char comando[]) {
+    char caminho[200];
+    struct stat informacoes;
+
+    int quantidade = sscanf(comando, "workdir %199[^\n]", caminho);
+
+    if (quantidade != 1) {
+        printf("Erro: use workdir <diretorio>\n");
+        return 0;
+    }
+
+    if (stat(caminho, &informacoes) != 0 || !S_ISDIR(informacoes.st_mode)) {
+        printf("Erro: diretorio nao encontrado.\n");
+        return 0;
+    }
+
+    snprintf(workdir_path, sizeof(workdir_path), "%s", caminho);
+
+    printf("Diretorio de trabalho configurado: %s\n", caminho);
+    return 1;
+}
+
+int apply_workdir() {
+    if (workdir_path[0] == '\0') {
+        return 1;
+    }
+
+    if (chdir(workdir_path) != 0) {
+        perror("Erro ao acessar diretorio de trabalho");
+        return 0;
+    }
+
+    return 1;
+}
+
+int aplicar_workdir() {
+    if (workdir_path[0] == '\0') {
+        return 1;
+    }
+
+    if (chdir(workdir_path) != 0) {
+        perror("Erro ao acessar diretorio de trabalho");
+        return 0;
+    }
+    return 1;
+}
+
 int redirecionamento(Task tasks[], int indice) {
     int arquivo;
     if (tasks[indice].input_file[0] != '\0') {
@@ -131,6 +180,7 @@ int redirecionamento(Task tasks[], int indice) {
     }
     return 1;
 }
+
 
 int run_pipe(Task tasks[], int total, char comando[]) {
     char copia[200];
@@ -199,6 +249,10 @@ int run_pipe(Task tasks[], int total, char comando[]) {
         }
         if (pid == 0) {
             int indice = indices[i];
+            if (aplicar_workdir() == 0){
+                _exit(1);
+            }
+
             if (redirecionamento(tasks, indice) == 0) {
                 _exit(1);
             }
@@ -242,6 +296,7 @@ int run_pipe(Task tasks[], int total, char comando[]) {
     return 1;
 }
 
+
 int run_task(Task tasks[], int total, char nome[]) {
     int indice = -1; //O -1 significa que nenhuma tarefa foi encontrada.
     for (int i = 0; i < total; i++) {
@@ -260,6 +315,9 @@ int run_task(Task tasks[], int total, char nome[]) {
         return 0;
     }
     if (pid == 0) {
+        if (aplicar_workdir() == 0) {
+            _exit(1);
+        }
         if (redirecionamento(tasks, indice) == 0) {
             _exit(1);
         }
@@ -352,6 +410,9 @@ int main() {
                     break;
                 }
                 if (pid == 0) {
+                    if (aplicar_workdir() == 0) {
+                        _exit(1);
+                    }
                     if (redirecionamento(tasks, indice) == 0) {
                         _exit(1);
                     }
@@ -376,7 +437,9 @@ int main() {
             for (int i = 0; i < total_processos; i++) {
                 waitpid(pids[i], NULL, 0);
             }
-
+        
+        }else if (strcmp(comando, "workdir") == 0 || strncmp(comando, "workdir ", 8) == 0) {
+            configure_workdir(comando);
         }else if (strcmp(comando, "input") == 0 || strncmp(comando, "input ", 6) == 0) {
             armazenar_arquivos(tasks, total, comando, "input");
 
