@@ -1,0 +1,6 @@
+# Arquivos gerados pela compilação
+processflow/*.o
+processflow/processflow
+
+# Arquivos temporários de teste
+teste_workdir/

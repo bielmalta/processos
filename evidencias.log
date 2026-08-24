@@ -449,4 +449,204 @@ processflow> exit    ^C
 [?2004lgcc -c processflow/src/main.c -o processflow/main.o
 gcc processflow/main.o -o processflow/processflow
 [?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./prce[K[Kocessflow/peoc[K[K[Krocessflow teste.pg[Kf
-[?2004lprocessflow> task mensagem /bin/echo Workflow
+[?2004lprocessflow> task mensagem /bin/echo Workflow funcionando
+
+Task cadastrada: mensagem
+processflow> run mensagem
+
+Workflow funcionando
+
+processflow> exit
+
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ,[Kmake
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mmkdir -p teste_workdir[27mmkdir -p teste_workdir
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ printf "teste1/t[K[K\nteste2\nteste3" > teste_wordir/nomes.txt
+[?2004lbash: teste_wordir/nomes.txt: No such file or directory
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ printf "teste1\nteste2\nteste3" > teste_wordir/nomes.txt
+[?2004lbash: teste_wordir/nomes.txt: No such file or directory
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ printf "teste1\nteste2\nteste3" > teste_wordir/nomes.txtkdir/nomes.txt
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ printf "teste1\nteste2\nteste3" > teste_workdir/nomes.txt[1Pdir/nomes.txt[34Pmkdir -p teste_workdirake[K clean./processflow/processflow teste.pfmake[K clean./processflow/processflow
+[?2004lprocessflow> task mensagem /bin/echo ProcessFlow funcionando
+Task cadastrada: mensagem
+processflow> task pausa /bin/sleep 2
+Task cadastrada: pausa
+processflow> task listar /bin/ls
+Task cadastrada: listar
+processflow> task ordenar /usr/bin/sort
+Task cadastrada: ordenar
+processflow> task contar /usr/bin/wc-l
+Task cadastrada: contar
+processflow> run mensagem
+ProcessFlow funcionando
+
+processflow> run sequencial mensagem pausa mensagem
+Erro: tarefa sequencial nao encontrada.
+processflow> run sequentiaç l mensagem pausa mensagem
+Erro: tarefa sequentia�l nao encontrada.
+processflow> run sequential mensagem pausa mensagem
+ProcessFlow funcionando
+
+/bin/sleep: invalid time interval ‘2\n’
+Try '/bin/sleep --help' for more information.
+Erro: tarefa mensagem
+ nao encontrada.
+processflow> exit
+processflow> ^C
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mtask mensagem /bin/echo ProcessFlow funcionando[27m
+[7mtask pausa /bin/sleep 2[27m
+[7mrun sequential mensagem pausa mensagem[27m[A[A]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ task mensagem /bin/echo ProcessFlow funcionando
+task pausa /bin/sleep 2
+run sequential mensagem pausa mensagem
+[?2004lCommand 'task' not found, but can be installed with:
+sudo snap install task         # version v3.51.1, or
+sudo apt  install taskwarrior  # version 2.6.2+dfsg-1
+See 'snap info task' for additional versions.
+Command 'task' not found, but can be installed with:
+sudo snap install task         # version v3.51.1, or
+sudo apt  install taskwarrior  # version 2.6.2+dfsg-1
+See 'snap info task' for additional versions.
+Command 'run' not found, did you mean:
+  command 'rue' from snap darkdimension-rue (1.0.7)
+  command 'srun' from deb slurm-client (23.02.6-1ubuntu2)
+  command 'rn' from deb trn4 (4.0-test77-16)
+  command 'runc' from deb runc (1.3.4-0ubuntu1~24.04.1)
+  command 'rup' from deb rstat-client (4.0.1-11)
+  command 'zun' from deb python3-zunclient (4.7.0-0ubuntu1)
+  command 'grun' from deb grun (0.9.3+git20200303-3)
+  command 'crun' from deb crun (1.12-1)
+  command 'zrun' from deb moreutils (0.67-1)
+  command 'runq' from deb exim4-daemon-heavy (4.97-4ubuntu4.6)
+  command 'runq' from deb exim4-daemon-light (4.97-4ubuntu4.6)
+  command 'runq' from deb sendmail-bin (8.17.2-1)
+See 'snap info <snapname>' for additional versions.
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mtask mensagem /bin/echo ProcessFlow funcionando[27mtask mensagem /bin/echo ProcessFlow funcionando
+[?2004lCommand 'task' not found, but can be installed with:
+sudo snap install task         # version v3.51.1, or
+sudo apt  install taskwarrior  # version 2.6.2+dfsg-1
+See 'snap info task' for additional versions.
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflow
+[?2004lprocessflow> task mensagem /bin/echo ProcessFlow funcionando
+Task cadastrada: mensagem
+processflow> task pausa /bin/sleep 2
+Task cadastrada: pausa
+processflow> run sequential mensagem pausa mensagem
+ProcessFlow funcionando
+ProcessFlow funcionando
+processflow> run parallel pausa mensagem
+ProcessFlow funcionando
+processflow> un pipe listar ordenar contar^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D                                ^[[D                                 run pipe listar ordenar contar
+Erro: tarefa listar nao encontrada.
+processflow> tasl   k listar /bin/ls
+Task cadastrada: listar
+processflow> task ordenar /usr/bin/sort
+Task cadastrada: ordenar
+processflow> task contar /usr/bin/wc-l
+Task cadastrada: contar
+processflow> run pipe listar ordenar contar
+Erro ao executar a tarefa contar.
+processflow> task contar /usr/bin/wc -l
+Task cadastrada: contar
+processflow> run pipe listar ordenar contar
+Erro ao executar a tarefa contar.
+processflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflowtask mensagem /bin/echo ProcessFlow funcionando[22P./processflow/processflow
+[?2004lprocessflow> task mensagem /bin/echo ProcessFlow funcionando
+Task cadastrada: mensagem
+processflow> task pausa /bin/sleep 2
+Task cadastrada: pausa
+processflow> task listar /bin/ls
+Task cadastrada: listar
+processflow> task ordenar /usr/bin/sort
+Task cadastrada: ordenar
+processflow> task contar /usr/bin/wc -l
+Task cadastrada: contar
+processflow> run pipe listar ordenar contar
+6
+processflow> run sequential mensagem pausa mensagem
+ProcessFlow funcionando
+ProcessFlow funcionando
+processflow> run parallel pausa mensagem
+ProcessFlow funcionando
+processflow> workdir teste_workdir
+Diretorio de trabalho configurado: teste_workdir
+processflow> input ordenar nomes.txt
+input configurado para a tarefa ordenar.
+processflow> output ordenar resultado.txt
+output configurado para a tarefa ordenar.
+processflow> run ordenar
+processflow> task registrar /bin/echo Nova linha
+Task cadastrada: registrar
+processflow> append registrar resultado.txt
+append configurado para a tarefa registrar.
+processflow> run registar  rar
+processflow> task caminho /bin/pwd
+Task cadastrada: caminho
+processflow> run caminho
+/mnt/c/Users/bielm/Processos/processos/teste_workdir
+processflow> start pausa
+[Job 1] PID 40469 - tarefa pausa iniciada
+processflow> jobs
+[Job 1] PID 40469 - pausa - finalizado
+processflow> wait q 1
+Job 1 ja foi finalizado.
+processflow> jobs
+[Job 1] PID 40469 - pausa - finalizado
+processflow> run inexistente
+Erro: tarefa inexistente nao encontrada.
+processflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mcat teste_workdir/resultado.txt[27mcat teste_workdir/resultado.txt
+[?2004lteste1
+teste2
+teste3
+Nova linha
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ git status[K[K[K[K[K[K[K[K[K[Kgitsta[K[K[K status
+[?2004lOn branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	[31mmodified:   evidencias.log[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mgit ls-files[27mgit ls-files
+[?2004lREADME.md
+evidencias.log
+makefile
+processflow/main.o
+processflow/src/main.c
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mgit rm --cached processflow/main.o[27mgit rm --cached processflow/main.o
+[?2004lrm 'processflow/main.o'
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mls -la[27mls -la
+[?2004ltotal 132
+drwxrwxrwx 1 bielmalta bielmalta    512 Aug 24 16:46 [0m[34;42m.[0m
+drwxrwxrwx 1 bielmalta bielmalta    512 Aug 18 17:32 [34;42m..[0m
+drwxrwxrwx 1 bielmalta bielmalta    512 Aug 24 16:45 [34;42m.git[0m
+-rwxrwxrwx 1 bielmalta bielmalta    130 Aug 24 16:46 [01;32m.gitignore[0m
+-rwxrwxrwx 1 bielmalta bielmalta    946 Aug 24 15:48 [01;32mREADME.md[0m
+-rwxrwxrwx 1 bielmalta bielmalta 120450 Aug 24 16:47 [01;32mevidencias.log[0m
+-rwxrwxrwx 1 bielmalta bielmalta    262 Aug 20 09:46 [01;32mmakefile[0m
+drwxrwxrwx 1 bielmalta bielmalta    512 Aug 24 16:37 [34;42mprocessflow[0m
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mgit rm --cached processflow/main.o[27mgit rm --cached processflow/main.o
+[?2004lfatal: pathspec 'processflow/main.o' did not match any files
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ git status
+[?2004lOn branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	[32mdeleted:    processflow/main.o[m
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	[31mmodified: 
