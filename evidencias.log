@@ -649,4 +649,54 @@ Changes to be committed:
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
-	[31mmodified: 
+	[31mmodified:   evidencias.log[m
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	[31m.gitignore[m
+
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mgit add .gitignore evidencias.log[27mgit add .gitignore evidencias.log
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ git status
+[?2004lOn branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	[32mnew file:   .gitignore[m
+	[32mmodified:   evidencias.log[m
+	[32mdeleted:    processflow/main.o[m
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	[31mmodified:   evidencias.log[m
+
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mgit push origin main[27mgit push origin main
+[?2004lUsername for 'https://github.com': bielmalta
+Password for 'https://bielmalta@github.com': 
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/bielmalta/processos.git/'
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ gitsatus[K[K[K[Ktatus
+[?2004lCommand 'gitstatus' not found, did you mean:
+  command 'mgitstatus' from deb mgitstatus (2.2+dfsg-2)
+Try: sudo apt install <deb name>
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ git status
+[?2004lOn branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	[31mmodified:   evidencias.log[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ exit
+[?2004lexit
+
+Script done on 2026-08-24 16:51:07-03:00 [COMMAND_EXIT_CODE="0"]
