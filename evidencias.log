@@ -234,4 +234,65 @@ processflow> exit
 [01m[Kprocessflow/src/main.c:[m[K In function ‘[01m[Krun_pipe[m[K’:
 [01m[Kprocessflow/src/main.c:204:17:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Kaplicar_workdir[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
   204 |             if ([01;35m[Kaplicar_workdir[m[K() == 0) {
-      |                 [01;35m[K^~~~~~~~~~~~~~~
+      |                 [01;35m[K^~~~~~~~~~~~~~~[m[K
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ mk[Kal[Kke clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+[01m[Kprocessflow/src/main.c:[m[K In function ‘[01m[Krun_pipe[m[K’:
+[01m[Kprocessflow/src/main.c:204:17:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Kaplicar_workdir[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
+  204 |             if ([01;35m[Kaplicar_workdir[m[K() == 0) {
+      |                 [01;35m[K^~~~~~~~~~~~~~~[m[K
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make][K
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+[01m[Kprocessflow/src/main.c:[m[K In function ‘[01m[Krun_pipe[m[K’:
+[01m[Kprocessflow/src/main.c:204:17:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Kaplicar_workdir[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
+  204 |             if ([01;35m[Kaplicar_workdir[m[K() == 0){
+      |                 [01;35m[K^~~~~~~~~~~~~~~[m[K
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$   Ç~][[K[K[K[K[K[KMAKE[K[K[K[Kmake
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflow
+[?2004lprocessflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mmkdir -p teste_workdir[27mmkdir -p teste_workdir
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ [7mprintf "arquivo de teste\n" > teste_workdir/exemplo.txt[27mprintf "arquivo de teste\n" > teste_workdir/exemplo.txt
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make cleanprintf "arquivo de teste\n" > teste_workdir/exemplo.txt[33Pmkdir -p teste_workdir./processflow/processflow
+[?2004lprocessflow> ^B  workdir teste_workdir
+Diretorio de trabalho configurado: teste_workdir
+processflow> task caminho /bin/pwd
+Task cadastrada: caminho
+processflow> task listar /bin/ls
+Task cadastrada: listar
+processflow> run caminj ho
+Erro ao acessar diretorio de trabalho: No such file or directory
+processflow> run listar
+Erro ao acessar diretorio de trabalho: No such file or directory
+processflow> exit    exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ ./processflow/processflowmake[K cleanprintf "arquivo de teste\n" > teste_workdir/exemplo.txt[33Pmkdir -p teste_workdir
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ mkdir -p teste_workdir./processflow/processflowmake[K cleanprintf "arquivo de teste\n" > teste_workdir/exemplo.txt
+[?2004l[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ printf "arquivo de teste\n" > teste_workdir/exemplo.txt[33Pmkdir -p teste_workdir./processflow/processflowmake[K clean
+[?2004lrm -f processflow/*.o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make
+[?2004lgcc -c processflow/src/main.c -o processflow/main.o
+gcc processflow/main.o -o processflow/processflow
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@AlienGabriel[00m:[01;34m/mnt/c/Users/bielm/Processos/processos[00m$ make cleanprintf "arquivo de teste\n" > teste_workdir/exemplo.txt[33Pmkdir -p teste_workdir./processflow/processflow
+[?2004lprocessflow> workdir teste_workdir
+Diretorio de trabalho configurado: teste_workdir
+processflow> task caminho /bin/pwd
+Task cadastrada: caminho
+processflow> task listar /l bin/ls
+Task cadastrada: listar
+processflow> run caminho
+/mnt/c/Users/bielm/Processos/processos/teste_workdir
+processflow> run lisa tar
+exemplo.txt
+processflow> exit
+[?2004h]0;bielmalta@AlienGabriel: /mnt/c/Users/bielm/Processos/processos[01;32mbielmalta@Alien
